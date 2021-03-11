@@ -3,14 +3,16 @@ using System;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(WalletContext))]
-    partial class WalletContextModelSnapshot : ModelSnapshot
+    [Migration("20210311131512_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,52 +64,6 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("ExpenseTypes");
                 });
 
-            modelBuilder.Entity("Core.Entities.Income", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("Date");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(180)
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("IncomeTypeId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IncomeTypeId");
-
-                    b.ToTable("Incomes");
-                });
-
-            modelBuilder.Entity("Core.Entities.IncomeType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("IncomeTypes");
-                });
-
             modelBuilder.Entity("Core.Entities.Expense", b =>
                 {
                     b.HasOne("Core.Entities.ExpenseType", "ExpenseType")
@@ -117,17 +73,6 @@ namespace Infrastructure.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("ExpenseType");
-                });
-
-            modelBuilder.Entity("Core.Entities.Income", b =>
-                {
-                    b.HasOne("Core.Entities.IncomeType", "IncomeType")
-                        .WithMany()
-                        .HasForeignKey("IncomeTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("IncomeType");
                 });
 #pragma warning restore 612, 618
         }
